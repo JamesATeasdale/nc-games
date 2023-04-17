@@ -7,12 +7,13 @@ body {
   text-decoration: none;
   color: white;
   font-weight: 700px;
-  list-style-type: none
+  list-style-type: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .content {
   justify-content: center;
-  margin: 0;
   top: 70px;
   position: relative;
   display: grid;
@@ -30,6 +31,12 @@ body {
   position: relative;
 }
 
+.card h4 {
+  font-size: 22px;
+  height: 50px;
+  margin-top: 5px;
+}
+
 .card * {
   max-width: 350px;
 }
@@ -39,9 +46,7 @@ body {
   position: absolute;
   bottom: -45px;
   right: 0;
-  align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
 .card-icon a {
@@ -65,26 +70,15 @@ body {
   width: 300px;
 }
 
-
-.card h4 {
-  top: 0;
-  margin:5px 0;
-  font-size: 22px;
-  height: 60px;
-}
-
-.card img {
-  top:0;
-  margin:0;
-  position: relative;
-}
-
 header {
   background-color: #282c34;
   height:60px;
   display: flex;
   color: white;
   border: green 3px solid;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 h1 {
@@ -99,12 +93,9 @@ h1 {
   position: absolute;
   right: 0;
   left: 0;
-  margin-left: auto; 
-  margin-right: auto; 
   width: 400px;
-
-  
 }
+
 .nav-bar li {
   display: flex;
   margin: 0 3px;
@@ -113,7 +104,6 @@ h1 {
 	transform: skewX(20deg);
   height: 35px;
   align-items: center;
-  justify-content: center;
   width: 300px;
   transition: all 0.2s;
 }
@@ -122,21 +112,13 @@ h1 {
   transform: scale(1.1) skewX(20deg);
 }
 
-
 .nav-bar li p {
   transform: skewX(-20deg);
   font-size:23px;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media screen and (max-width: 850px) {
+  .content {
+    grid-template-columns: 420px;
   }
 }
