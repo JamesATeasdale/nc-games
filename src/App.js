@@ -4,17 +4,22 @@ import Header from "./components/Header";
 import Content from "./components/Content";
 import Reviews from "./components/Reviews";
 import Footer from "./components/Footer";
+import { useEffect, useState } from "react";
 
 function App() {
+	const [page, setPage] = useState("home");
+	useEffect(() => {
+		setPage("home");
+	}, []);
 	return (
-		<body>
-			<Header />
+		<main>
+			<Header page={page} />
 			<Routes>
-				<Route path="/reviews" element={<Reviews />} />
-				<Route path="/" element={<Content />}></Route>
+				<Route path="/reviews" element={<Reviews setPage={setPage} />} />
+				<Route path="/" element={<Content setPage={setPage} />} />
 			</Routes>
 			<Footer />
-		</body>
+		</main>
 	);
 }
 

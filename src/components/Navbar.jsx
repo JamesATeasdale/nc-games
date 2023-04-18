@@ -1,17 +1,32 @@
-const NavBar = () => {
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+
+const NavBar = ({ page }) => {
 	return (
 		<ul className="nav-bar">
-			<li>
-				<p>Home</p>
+			<li
+				style={
+					page === "home"
+						? { backgroundColor: "blue" }
+						: { backgroundColor: "black" }
+				}
+			>
+				<Link to="/">Home</Link>
+			</li>
+			<li
+				style={
+					page === "review"
+						? { backgroundColor: "blue" }
+						: { backgroundColor: "black" }
+				}
+			>
+				<Link to="/reviews">Reviews</Link>
 			</li>
 			<li>
-				<p>Reviews</p>
+				<Link to="/">Games</Link>
 			</li>
 			<li>
-				<p>Games</p>
-			</li>
-			<li>
-				<p>Users</p>
+				<Link to="/">Users</Link>
 			</li>
 		</ul>
 	);

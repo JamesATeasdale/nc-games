@@ -1,24 +1,30 @@
-import Content from "./Content";
 import { fetchReviews } from "./api";
 import { useState, useEffect } from "react";
 
-const Reviews = () => {
+const Reviews = ({ setPage }) => {
 	const [reviews, setReviews] = useState([]);
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		fetchReviews().then((data) => setReviews(data));
-	});
+		setPage("review");
+		setLoading(true);
+		fetchReviews().then(async (data) => {
+			setLoading(false);
+			setReviews(data.reviews);
+		});
+	}, []);
+
+	if (loading) return <p>Loading...</p>;
 
 	return (
 		<main>
-			<h2>Reviews</h2>
-			<div className="content">
+			<section className="content">
 				{reviews.map((review) => {
 					return (
-						<div className="card">
+						<div className="card" key={review.review_id}>
 							<ul className="card-icon">
-								<a href="#">{review.votes}</a>
-								<a href="#">{review.comment_count}</a>
+								<a href="#">{review.votes}👍</a>
+								<a href="#">{review.comment_count}💬</a>
 							</ul>
 							<h4>{review.title}</h4>
 							<img
@@ -27,16 +33,15 @@ const Reviews = () => {
 								max-width="200px"
 								alt=""
 							/>
-							<div className="reviewBody">
-								<div className="reviewInfo">
-									Owner: <p>{review.owner}</p>
-									Designer: <p>{review.designer}</p>
-								</div>
-							</div>
+							<li className="reviewInfo">
+								<p>Owner: {review.owner}</p>
+								<p>Designer: {review.designer}</p>
+								<p>Posted at: {review.created_at.slice(0, 10)}</p>
+							</li>
 						</div>
 					);
 				})}
-			</div>
+			</section>
 		</main>
 	);
 };
