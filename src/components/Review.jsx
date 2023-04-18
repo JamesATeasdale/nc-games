@@ -7,22 +7,32 @@ const Review = () => {
 	const [review, setReview] = useState({});
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
+	const [err, setErr] = useState("");
 	useEffect(() => {
 		setLoading(true);
-		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)]).then(
-			(promises) => {
+		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)])
+			.catch((err) => {
+				setLoading(false);
+				setErr(err);
+			})
+			.then((promises) => {
 				setReview(promises[0].review[0]);
 				setComments(promises[1].comments);
 				setLoading(false);
-			}
-		);
+			});
 	}, [review_id]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 	};
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <div className="notification">Loading...</div>;
+	else if (err)
+		return (
+			<div className="notification">
+				Ran into an error while processing your request. Refresh or try again.
+			</div>
+		);
 
 	return (
 		<main>

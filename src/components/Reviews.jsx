@@ -4,17 +4,29 @@ import { Link } from "react-router-dom";
 
 const Reviews = () => {
 	const [reviews, setReviews] = useState([]);
+	const [err, setErr] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
-		fetchReviews().then((data) => {
-			setLoading(false);
-			setReviews(data.reviews);
-		});
+		fetchReviews()
+			.catch((err) => {
+				setLoading(false);
+				setErr(err);
+			})
+			.then((data) => {
+				setLoading(false);
+				setReviews(data.reviews);
+			});
 	}, []);
 
-	if (loading) return <p>Loading...</p>;
+	if (loading) return <div className="notification">Loading...</div>;
+	else if (err)
+		return (
+			<div className="notification">
+				Ran into an error while processing your request. Refresh or try again.
+			</div>
+		);
 
 	return (
 		<main>

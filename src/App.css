@@ -17,6 +17,13 @@ img {
 max-height:100%;
 }
 
+.notification {
+  background-color: rgb(119, 0, 0);
+  color: white;
+  font-size: 42px;
+  width: 100%;
+}
+
 .content {
   justify-content: center;
   top: 10px;
