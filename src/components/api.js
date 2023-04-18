@@ -7,3 +7,5 @@ const reviewsApi = axios.create({
 export const fetchReviews = (id = "") =>
 	reviewsApi.get(`/reviews/${id}`).then((res) => res.data);
 
+export const fetchReviewComments = (id) =>
+	reviewsApi.get(`/reviews/${id}/comments`).then((res) => res.data);

@@ -24,9 +24,6 @@ const Reviews = () => {
 						<div className="card" key={review.review_id}>
 							<ul className="card-icon">
 								<a href="/">{review.votes}👍</a>
-								<Link to={"/reviews/" + review.review_id}>
-									{review.comment_count}💬
-								</Link>
 							</ul>
 							<Link to={"/reviews/" + review.review_id}>
 								<h4>{review.title}</h4>
