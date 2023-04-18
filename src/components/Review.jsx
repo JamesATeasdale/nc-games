@@ -37,24 +37,7 @@ const Review = () => {
 						<a href="/">{review.votes}👍</a>
 					</ul>
 				</div>
-				{comments.map((comment) => (
-					<div key={comment.comment_id} className="review-card-comment">
-						<div className="review-card-comment-info">
-							<h4>{comment.author}</h4>
-							<h5>{comment.created_at.slice(0, 10)}</h5>
-						</div>
-						<p>{comment.body}</p>
-						<ul className="review-card-icon">
-							<a href="/">{comment.votes}👍</a>
-						</ul>
-					</div>
-				))}
-				<form className="review-card-comment" onSubmit={handleSubmit}>
-					<label htmlFor="comment">
-						<h4>Post a comment:</h4>
-					</label>
-					<input name="comment" type="text" />
-				</form>
+				{/* */}
 			</section>
 		</main>
 	);
