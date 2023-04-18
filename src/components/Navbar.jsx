@@ -15,7 +15,7 @@ const NavBar = () => {
 			</li>
 			<li
 				style={
-					pathname === "/reviews"
+					pathname.includes("/reviews")
 						? { backgroundColor: "blue" }
 						: { backgroundColor: "black" }
 				}

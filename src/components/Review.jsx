@@ -1,26 +1,18 @@
 import { useParams } from "react-router-dom";
-import { fetchReviews, fetchReviewComments } from "./api";
+import { fetchReviews } from "./api";
 import { useEffect, useState } from "react";
 
 const Review = () => {
 	const { review_id } = useParams();
 	const [review, setReview] = useState({});
-	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
 	useEffect(() => {
 		setLoading(true);
-		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)]).then(
-			(promises) => {
-				setReview(promises[0].review[0]);
-				setComments(promises[1].comments);
-				setLoading(false);
-			}
-		);
+		Promise.all([fetchReviews(review_id)]).then((promises) => {
+			setReview(promises[0].review[0]);
+			setLoading(false);
+		});
 	}, [review_id]);
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-	};
 
 	if (loading) return <p>Loading...</p>;
 
