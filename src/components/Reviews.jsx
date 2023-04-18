@@ -1,5 +1,6 @@
 import { fetchReviews } from "./api";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const Reviews = () => {
 	const [reviews, setReviews] = useState([]);
@@ -23,20 +24,24 @@ const Reviews = () => {
 						<div className="card" key={review.review_id}>
 							<ul className="card-icon">
 								<a href="/">{review.votes}👍</a>
-								<a href="/">{review.comment_count}💬</a>
+								<Link to={"/reviews/" + review.review_id}>
+									{review.comment_count}💬
+								</Link>
 							</ul>
-							<h4>{review.title}</h4>
-							<img
-								src={review.review_img_url}
-								height="250px"
-								max-width="200px"
-								alt=""
-							/>
-							<li className="reviewInfo">
-								<p>Owner: {review.owner}</p>
-								<p>Designer: {review.designer}</p>
-								<p>Posted at: {review.created_at.slice(0, 10)}</p>
-							</li>
+							<Link to={"/reviews/" + review.review_id}>
+								<h4>{review.title}</h4>
+								<img
+									src={review.review_img_url}
+									height="250px"
+									max-width="200px"
+									alt=""
+								/>
+								<li className="reviewInfo">
+									<p>Owner: {review.owner}</p>
+									<p>Designer: {review.designer}</p>
+									<p>Posted at: {review.created_at.slice(0, 10)}</p>
+								</li>
+							</Link>
 						</div>
 					);
 				})}

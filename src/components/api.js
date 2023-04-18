@@ -6,3 +6,4 @@ const reviewsApi = axios.create({
 
 export const fetchReviews = (id = "") =>
 	reviewsApi.get(`/reviews/${id}`).then((res) => res.data);
+
