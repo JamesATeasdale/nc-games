@@ -1,12 +1,12 @@
-import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-const NavBar = ({ page }) => {
+const NavBar = () => {
+	const { pathname } = useLocation();
 	return (
 		<ul className="nav-bar">
 			<li
 				style={
-					page === "home"
+					pathname === "/"
 						? { backgroundColor: "blue" }
 						: { backgroundColor: "black" }
 				}
@@ -15,15 +15,12 @@ const NavBar = ({ page }) => {
 			</li>
 			<li
 				style={
-					page === "review"
+					pathname === "/reviews"
 						? { backgroundColor: "blue" }
 						: { backgroundColor: "black" }
 				}
 			>
 				<Link to="/reviews">Reviews</Link>
-			</li>
-			<li>
-				<Link to="/">Games</Link>
 			</li>
 			<li>
 				<Link to="/">Users</Link>

@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import Card from "./Card";
 
-const Content = ({ setPage }) => {
-	useEffect(() => {
-		setPage("home");
-	}, []);
+const Content = () => {
+	useEffect(() => {}, []);
 	return (
 		<div className="content">
 			<Card title={"Reviews"} />

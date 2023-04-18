@@ -1,14 +1,13 @@
 import { fetchReviews } from "./api";
 import { useState, useEffect } from "react";
 
-const Reviews = ({ setPage }) => {
+const Reviews = () => {
 	const [reviews, setReviews] = useState([]);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
-		setPage("review");
 		setLoading(true);
-		fetchReviews().then(async (data) => {
+		fetchReviews().then((data) => {
 			setLoading(false);
 			setReviews(data.reviews);
 		});
@@ -23,8 +22,8 @@ const Reviews = ({ setPage }) => {
 					return (
 						<div className="card" key={review.review_id}>
 							<ul className="card-icon">
-								<a href="#">{review.votes}👍</a>
-								<a href="#">{review.comment_count}💬</a>
+								<a href="/">{review.votes}👍</a>
+								<a href="/">{review.comment_count}💬</a>
 							</ul>
 							<h4>{review.title}</h4>
 							<img
