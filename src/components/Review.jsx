@@ -1,11 +1,16 @@
 import { useParams } from "react-router-dom";
-import { fetchReviews, fetchReviewComments, patchReview } from "./api";
+import {
+	fetchReviews,
+	fetchReviewComments,
+	patchReview,
+	postComment,
+} from "./api";
 import { useEffect, useState } from "react";
 
-const Review = () => {
+const Review = ({ user }) => {
 	const { review_id } = useParams();
 	const [review, setReview] = useState({});
-  const [reviewTemp, setReviewTemp] = useState({});
+	const [reviewTemp, setReviewTemp] = useState({});
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState(false);
@@ -29,6 +34,9 @@ const Review = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		const comment = { author: user.username, body: e.target[0].value };
+		postComment(Number(review_id), comment);
+		console.log(review_id, comment);
 	};
 
 	const handleReview = (num) => {
@@ -102,9 +110,10 @@ const Review = () => {
 				))}
 				<form className="review-card-comment" onSubmit={handleSubmit}>
 					<label htmlFor="comment">
-						<h4>Post a comment:</h4>
+						<img src={user.avatar_url} alt="" height="65px;" />
 					</label>
 					<input name="comment" type="text" />
+					<button>Post</button>
 				</form>
 			</section>
 		</main>

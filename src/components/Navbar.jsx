@@ -24,7 +24,16 @@ const NavBar = () => {
 			>
 				Reviews
 			</Link>
-			<Link to="/">Users</Link>
+			<Link
+				style={
+					pathname.includes("/users")
+						? { backgroundColor: "blue" }
+						: { backgroundColor: "black" }
+				}
+				to="/users"
+			>
+				Users
+			</Link>
 		</ul>
 	);
 };

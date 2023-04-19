@@ -15,7 +15,6 @@ body {
 }
 
 img {
-  border: #010101 1px solid;
   border-radius: 5px;
 }
 
@@ -31,8 +30,6 @@ button {
   border: #373737 solid 2px;
   font-size: 28px;
   z-index: 1;
-  height: 30px;
-  width: 30px;
   margin: auto 10px;
 }
 
@@ -126,13 +123,25 @@ button:hover {
   height: 120px;
 }
 
-.review-card-comment p, input {
+.review-card-comment p {
   text-align: start;
   width: 70%;
   margin: 0 30px;
   min-height: 65px;
   background-color: rgb(160, 160, 160);
   color:#010101;
+}
+
+.review-card-comment input {
+  text-align: start;
+  width: 60%;
+  min-height: 65px;
+  background-color: rgb(160, 160, 160);
+  color:#010101;
+}
+
+.review-card-comment button {
+  width: 9%;
 }
 
 .review-card-comment-info * {
