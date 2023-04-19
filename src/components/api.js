@@ -9,3 +9,9 @@ export const fetchReviews = (id = "") =>
 
 export const fetchReviewComments = (id) =>
 	reviewsApi.get(`/reviews/${id}/comments`).then((res) => res.data);
+
+export const patchReview = (id, num) =>
+	reviewsApi.patch(`/reviews/${id}`, { votes: num });
+
+// export const patchComment = (id, num) =>
+// 	reviewsApi.patch(`/reviews/${id}/comments`, { votes: num }); 

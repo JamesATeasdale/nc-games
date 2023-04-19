@@ -5,7 +5,7 @@ const Header = ({ page }) => {
 	return (
 		<header>
 			<Link to="/" className="header">
-				<h1>NC Games</h1>
+				NC Games
 			</Link>
 			<NavBar page={page} />
 		</header>

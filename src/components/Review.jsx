@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { fetchReviews, fetchReviewComments } from "./api";
+import { fetchReviews, fetchReviewComments, patchReview } from "./api";
 import { useEffect, useState } from "react";
 
 const Review = () => {
@@ -7,7 +7,7 @@ const Review = () => {
 	const [review, setReview] = useState({});
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
-	const [err, setErr] = useState("");
+	const [err, setErr] = useState(false);
 	useEffect(() => {
 		setLoading(true);
 		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)])
@@ -24,6 +24,12 @@ const Review = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+	};
+
+	const handleReview = (id, num) => {
+		return patchReview(id, num)
+			.catch((err) => setErr(true))
+			.then(() => {});
 	};
 
 	if (loading) return <div className="notification">Loading...</div>;
@@ -43,8 +49,22 @@ const Review = () => {
 					<img src={review.review_img_url} alt="" />
 					<h2>Posted by: {review.owner}</h2>
 					<p>{review.review_body}</p>
-					<ul className="review-card-icon">
-						<a href="/">{review.votes}👍</a>
+					<ul className="card-icon">
+						<button
+							onClick={(e) => {
+								handleReview(review.review_id, -1);
+							}}
+						>
+							⬇
+						</button>
+						<div className="vote-count">{review.votes}</div>
+						<button
+							onClick={(e) => {
+								handleReview(review.review_id, 1);
+							}}
+						>
+							⬆
+						</button>
 					</ul>
 				</div>
 				{comments.map((comment) => (
@@ -54,9 +74,6 @@ const Review = () => {
 							<h5>{comment.created_at.slice(0, 10)}</h5>
 						</div>
 						<p>{comment.body}</p>
-						<ul className="review-card-icon">
-							<a href="/">{comment.votes}👍</a>
-						</ul>
 					</div>
 				))}
 				<form className="review-card-comment" onSubmit={handleSubmit}>
