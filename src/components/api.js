@@ -12,6 +12,3 @@ export const fetchReviewComments = (id) =>
 
 export const patchReview = (id, num) =>
 	reviewsApi.patch(`/reviews/${id}`, { votes: num });
-
-// export const patchComment = (id, num) =>
-// 	reviewsApi.patch(`/reviews/${id}/comments`, { votes: num }); 

@@ -4,24 +4,22 @@ import { Link } from "react-router-dom";
 
 const Reviews = () => {
 	const [reviews, setReviews] = useState([]);
-	const [err, setErr] = useState("");
+	const [err, setErr] = useState(false);
+	const [fatalErr, setFatalErr] = useState(false);
 	const [loading, setLoading] = useState(false);
 	const [reviewTemplate, setReviewTemplate] = useState([]);
 
 	useEffect(() => {
 		setLoading(true);
 		fetchReviews()
-			.catch((err) => {
-				setLoading(false);
-				setErr(true);
-			})
 			.then((data) => {
-				setLoading(false);
 				setReviews(data.reviews);
 				if (reviewTemplate.length === 0) {
 					setReviewTemplate(data.reviews);
 				}
-			});
+			})
+			.catch((err) => setFatalErr(true))
+			.finally(() => setLoading(false));
 	}, [reviewTemplate.length]);
 
 	const handleClick = (id, num) => {
@@ -42,13 +40,12 @@ const Reviews = () => {
 					return review;
 				})
 			);
-
 			setErr(true);
 		});
 	};
 
 	if (loading) return <div className="notification">Loading...</div>;
-	else if (err)
+	if (fatalErr)
 		return (
 			<div className="notification">
 				Ran into an error while processing your request. Refresh or try again.
@@ -57,6 +54,13 @@ const Reviews = () => {
 
 	return (
 		<main>
+			{err ? (
+				<div className="notification">
+					Ran into an error while processing your request. Refresh or try again.
+				</div>
+			) : (
+				<p></p>
+			)}
 			<section className="content">
 				{reviews.map((review) => {
 					return (

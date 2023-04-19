@@ -9,21 +9,22 @@ const Review = () => {
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState(false);
+	const [fatalErr, setFatalErr] = useState(false);
 
 	useEffect(() => {
 		setLoading(true);
 		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)])
 			.catch((err) => {
 				setLoading(false);
-				setErr(err);
+				setFatalErr(true);
 			})
 			.then((promises) => {
 				setReviewTemp(promises[0].review[0]);
 
 				setReview(promises[0].review[0]);
 				setComments(promises[1].comments);
-				setLoading(false);
-			});
+			})
+			.finally(() => setLoading(false));
 	}, [review_id]);
 
 	const handleSubmit = (e) => {
@@ -36,19 +37,18 @@ const Review = () => {
 			copyObj.votes = copyObj.votes + num;
 			return copyObj;
 		});
-		return patchReview(review.review_id, num)
-			.catch((err) => {
-				setReview(() => {
-					const copyObj = Object.assign({}, review);
-					copyObj.votes = copyObj.votes - num;
-					return copyObj;
-				});
-				setErr(true);
-			})
-			.then(() => {});
+		return patchReview(review.review_id, num).catch((err) => {
+			setReview(() => {
+				const copyObj = Object.assign({}, review);
+				copyObj.votes = copyObj.votes - num;
+				return copyObj;
+			});
+			setErr(true);
+		});
 	};
+
 	if (loading) return <div className="notification">Loading...</div>;
-	else if (err)
+	else if (fatalErr)
 		return (
 			<div className="notification">
 				Ran into an error while processing your request. Refresh or try again.
@@ -57,6 +57,13 @@ const Review = () => {
 
 	return (
 		<main>
+			{err ? (
+				<div className="notification">
+					Ran into an error while processing your request. Refresh or try again.
+				</div>
+			) : (
+				<p></p>
+			)}
 			<section className="review-content">
 				<h2>{review.title}</h2>
 				<div className="review-card">
