@@ -4,27 +4,27 @@ const NavBar = () => {
 	const { pathname } = useLocation();
 	return (
 		<ul className="nav-bar">
-			<li
+			<Link
 				style={
 					pathname === "/"
 						? { backgroundColor: "blue" }
 						: { backgroundColor: "black" }
 				}
+				to="/"
 			>
-				<Link to="/">Home</Link>
-			</li>
-			<li
+				Home
+			</Link>
+			<Link
 				style={
 					pathname.includes("/reviews")
 						? { backgroundColor: "blue" }
 						: { backgroundColor: "black" }
 				}
+				to="/reviews"
 			>
-				<Link to="/reviews">Reviews</Link>
-			</li>
-			<li>
-				<Link to="/">Users</Link>
-			</li>
+				Reviews
+			</Link>
+			<Link to="/">Users</Link>
 		</ul>
 	);
 };
