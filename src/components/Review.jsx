@@ -5,9 +5,11 @@ import { useEffect, useState } from "react";
 const Review = () => {
 	const { review_id } = useParams();
 	const [review, setReview] = useState({});
+  const [reviewTemp, setReviewTemp] = useState({});
 	const [comments, setComments] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState(false);
+
 	useEffect(() => {
 		setLoading(true);
 		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)])
@@ -16,6 +18,8 @@ const Review = () => {
 				setErr(err);
 			})
 			.then((promises) => {
+				setReviewTemp(promises[0].review[0]);
+
 				setReview(promises[0].review[0]);
 				setComments(promises[1].comments);
 				setLoading(false);
@@ -26,12 +30,23 @@ const Review = () => {
 		e.preventDefault();
 	};
 
-	const handleReview = (id, num) => {
-		return patchReview(id, num)
-			.catch((err) => setErr(true))
+	const handleReview = (num) => {
+		setReview(() => {
+			const copyObj = Object.assign({}, review);
+			copyObj.votes = copyObj.votes + num;
+			return copyObj;
+		});
+		return patchReview(review.review_id, num)
+			.catch((err) => {
+				setReview(() => {
+					const copyObj = Object.assign({}, review);
+					copyObj.votes = copyObj.votes - num;
+					return copyObj;
+				});
+				setErr(true);
+			})
 			.then(() => {});
 	};
-
 	if (loading) return <div className="notification">Loading...</div>;
 	else if (err)
 		return (
@@ -52,16 +67,18 @@ const Review = () => {
 					<ul className="card-icon">
 						<button
 							onClick={(e) => {
-								handleReview(review.review_id, -1);
+								handleReview(-1);
 							}}
+							disabled={review.votes < reviewTemp.votes}
 						>
 							⬇
 						</button>
 						<div className="vote-count">{review.votes}</div>
 						<button
 							onClick={(e) => {
-								handleReview(review.review_id, 1);
+								handleReview(1);
 							}}
+							disabled={review.votes > reviewTemp.votes}
 						>
 							⬆
 						</button>

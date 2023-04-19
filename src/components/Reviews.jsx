@@ -13,7 +13,7 @@ const Reviews = () => {
 		fetchReviews()
 			.catch((err) => {
 				setLoading(false);
-				setErr(err);
+				setErr(true);
 			})
 			.then((data) => {
 				setLoading(false);
@@ -24,21 +24,27 @@ const Reviews = () => {
 			});
 	}, [reviewTemplate.length]);
 
-	console.log(reviewTemplate);
-
 	const handleClick = (id, num) => {
-		return patchReview(id, num)
-			.catch((err) => setErr(true))
-			.then(() =>
-				setReviews(
-					reviews.map((review) => {
-						if (review.review_id === id) {
-							review.votes = review.votes + num;
-						}
-						return review;
-					})
-				)
+		setReviews(
+			reviews.map((review) => {
+				if (review.review_id === id) {
+					review.votes = review.votes + num;
+				}
+				return review;
+			})
+		);
+		patchReview(id, num).catch((err) => {
+			setReviews(
+				reviews.map((review) => {
+					if (review.review_id === id) {
+						review.votes = review.votes - num;
+					}
+					return review;
+				})
 			);
+
+			setErr(true);
+		});
 	};
 
 	if (loading) return <div className="notification">Loading...</div>;
