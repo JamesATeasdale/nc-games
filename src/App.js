@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 
 function App() {
 	const [user, setUser] = useState({});
-	console.log(user);
 
 	useEffect(() => {}, []);
 	return (

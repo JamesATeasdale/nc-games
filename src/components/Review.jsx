@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import {
 	fetchReviews,
 	fetchReviewComments,
@@ -35,7 +35,7 @@ const Review = ({ user }) => {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const comment = { author: user.username, body: e.target[0].value };
-		postComment(Number(review_id), comment);
+		postComment(review_id, comment);
 		console.log(review_id, comment);
 	};
 
@@ -108,13 +108,29 @@ const Review = ({ user }) => {
 						<p>{comment.body}</p>
 					</div>
 				))}
-				<form className="review-card-comment" onSubmit={handleSubmit}>
-					<label htmlFor="comment">
-						<img src={user.avatar_url} alt="" height="65px;" />
-					</label>
-					<input name="comment" type="text" />
-					<button>Post</button>
-				</form>
+				{user.username ? (
+					<form onSubmit={handleSubmit}>
+						<div className="review-card-comment">
+							<label htmlFor="comment">
+								<img src={user.avatar_url} alt="" height="65px;" />
+							</label>
+							<input name="comment" type="text" />
+						</div>
+						<button className="postbtn">Post</button>
+					</form>
+				) : (
+					<Link
+						to="/users"
+						className="review-card-comment"
+						style={{
+							justifyContent: "center",
+							border: "green solid 2px",
+							fontSize: "26px",
+						}}
+					>
+						Log in to post a comment!
+					</Link>
+				)}
 			</section>
 		</main>
 	);

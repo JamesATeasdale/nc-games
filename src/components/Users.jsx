@@ -21,9 +21,7 @@ const Users = ({ user, setUser }) => {
 						className="card"
 						key={userObj.username}
 						style={
-							userObj.username === user.username
-								? { border: "3px yellow solid" }
-								: {}
+							userObj.username === user.username ? { background: "orange" } : {}
 						}
 					>
 						<h4>{userObj.username}</h4>

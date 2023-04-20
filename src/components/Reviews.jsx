@@ -20,7 +20,7 @@ const Reviews = () => {
 			})
 			.catch((err) => setFatalErr(true))
 			.finally(() => setLoading(false));
-	}, [reviewTemplate.length]);
+	}, [reviewTemplate]);
 
 	const handleClick = (id, num) => {
 		setReviews(
@@ -59,7 +59,7 @@ const Reviews = () => {
 					Ran into an error while processing your request. Refresh or try again.
 				</div>
 			) : (
-				<p></p>
+				""
 			)}
 			<section className="content">
 				{reviews.map((review) => {
