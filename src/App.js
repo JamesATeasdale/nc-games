@@ -5,17 +5,24 @@ import Content from "./components/Content";
 import Reviews from "./components/Reviews";
 import Review from "./components/Review";
 import Footer from "./components/Footer";
-import { useEffect } from "react";
+import Users from "./components/Users";
+import { useEffect, useState } from "react";
 
 function App() {
+	const [user, setUser] = useState({});
+
 	useEffect(() => {}, []);
 	return (
 		<main>
-			<Header />
+			<Header user={user} setUser={setUser} />
 			<Routes>
 				<Route path="/" element={<Content />} />
 				<Route path="/reviews" element={<Reviews />} />
-				<Route path="/reviews/:review_id" element={<Review />} />
+				<Route path="/reviews/:review_id" element={<Review user={user} />} />
+				<Route
+					path="/users"
+					element={<Users user={user} setUser={setUser} />}
+				/>
 			</Routes>
 			<Footer />
 		</main>
