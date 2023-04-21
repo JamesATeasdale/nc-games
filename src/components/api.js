@@ -5,16 +5,16 @@ const reviewsApi = axios.create({
 });
 
 export const fetchReviews = (id = "") =>
-	reviewsApi.get(`/reviews/${id}`).then((res) => res.data);
+	reviewsApi.get(`/reviews/${id}`).then(({ data }) => data);
 
 export const fetchReviewComments = (id) =>
-	reviewsApi.get(`/reviews/${id}/comments`).then((res) => res.data);
+	reviewsApi.get(`/reviews/${id}/comments`).then(({ data }) => data);
+
+export const fetchUsers = () =>
+	reviewsApi.get("/users").then(({ data }) => data.users);
 
 export const patchReview = (id, num) =>
 	reviewsApi.patch(`/reviews/${id}`, { votes: num });
 
 export const postComment = (id, body) =>
-	reviewsApi.post(`/reviews/${id}/comments`, body).then((data) => data);
-
-export const fetchUsers = () =>
-	reviewsApi.get("/users").then(({ data }) => data.users); 
+	reviewsApi.post(`/reviews/${id}/comments`, body);

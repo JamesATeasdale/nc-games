@@ -12,6 +12,7 @@ const Review = ({ user }) => {
 	const [review, setReview] = useState({});
 	const [reviewTemp, setReviewTemp] = useState({});
 	const [comments, setComments] = useState([]);
+	const [submittedComment, setSubmittedComment] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [err, setErr] = useState(false);
 	const [fatalErr, setFatalErr] = useState(false);
@@ -21,7 +22,7 @@ const Review = ({ user }) => {
 		Promise.all([fetchReviews(review_id), fetchReviewComments(review_id)])
 			.catch((err) => {
 				setLoading(false);
-				setFatalErr(true);
+				setFatalErr(err);
 			})
 			.then((promises) => {
 				setReviewTemp(promises[0].review[0]);
@@ -30,13 +31,19 @@ const Review = ({ user }) => {
 				setComments(promises[1].comments);
 			})
 			.finally(() => setLoading(false));
-	}, [review_id]);
+	}, [review_id, comments.length]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		const comment = { author: user.username, body: e.target[0].value };
-		postComment(review_id, comment);
-		console.log(review_id, comment);
+		if (!submittedComment) alert("Please enter a comment");
+		else {
+			const newComment = { author: user.username, body: submittedComment };
+			postComment(review_id, newComment)
+				.then(() => fetchReviewComments(review_id))
+				.then(({ comments }) => setComments(comments))
+				.then(() => setSubmittedComment(""))
+				.catch((err) => setErr(err));
+		}
 	};
 
 	const handleReview = (num) => {
@@ -45,13 +52,9 @@ const Review = ({ user }) => {
 			copyObj.votes = copyObj.votes + num;
 			return copyObj;
 		});
-		return patchReview(review.review_id, num).catch((err) => {
-			setReview(() => {
-				const copyObj = Object.assign({}, review);
-				copyObj.votes = copyObj.votes - num;
-				return copyObj;
-			});
-			setErr(true);
+		patchReview(review.review_id, num).catch((err) => {
+			setReview(reviewTemp);
+			setErr(err);
 		});
 	};
 
@@ -68,15 +71,18 @@ const Review = ({ user }) => {
 			{err ? (
 				<div className="notification">
 					Ran into an error while processing your request. Refresh or try again.
+					<h3>
+						{err.response.status}: {err.response.data.msg}
+					</h3>
 				</div>
 			) : (
-				<p></p>
+				""
 			)}
 			<section className="review-content">
 				<h2>{review.title}</h2>
 				<div className="review-card">
-					<h2>Designer: {review.designer} </h2>
 					<img src={review.review_img_url} alt="" />
+					<h2>Designer: {review.designer} </h2>
 					<h2>Posted by: {review.owner}</h2>
 					<p>{review.review_body}</p>
 					<ul className="card-icon">
@@ -114,9 +120,15 @@ const Review = ({ user }) => {
 							<label htmlFor="comment">
 								<img src={user.avatar_url} alt="" height="65px;" />
 							</label>
-							<input name="comment" type="text" />
+							<input
+								name="comment"
+								type="textarea"
+								onChange={(e) => setSubmittedComment(e.target.value)}
+							/>
 						</div>
-						<button className="postbtn">Post</button>
+						<button className="postbtn" value="Submit">
+							Post
+						</button>
 					</form>
 				) : (
 					<Link
@@ -124,8 +136,6 @@ const Review = ({ user }) => {
 						className="review-card-comment"
 						style={{
 							justifyContent: "center",
-							border: "green solid 2px",
-							fontSize: "26px",
 						}}
 					>
 						Log in to post a comment!

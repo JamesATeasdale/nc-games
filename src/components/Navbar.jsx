@@ -7,8 +7,8 @@ const NavBar = () => {
 			<Link
 				style={
 					pathname === "/"
-						? { backgroundColor: "blue" }
-						: { backgroundColor: "black" }
+						? { backgroundColor: "#e9ddcd", color: "#121212" }
+						: {}
 				}
 				to="/"
 			>
@@ -17,8 +17,8 @@ const NavBar = () => {
 			<Link
 				style={
 					pathname.includes("/reviews")
-						? { backgroundColor: "blue" }
-						: { backgroundColor: "black" }
+						? { backgroundColor: "#e9ddcd", color: "#121212" }
+						: {}
 				}
 				to="/reviews"
 			>
@@ -27,8 +27,8 @@ const NavBar = () => {
 			<Link
 				style={
 					pathname.includes("/users")
-						? { backgroundColor: "blue" }
-						: { backgroundColor: "black" }
+						? { backgroundColor: "#e9ddcd", color: "#121212" }
+						: {}
 				}
 				to="/users"
 			>

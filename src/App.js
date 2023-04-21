@@ -14,7 +14,7 @@ function App() {
 	useEffect(() => {}, []);
 	return (
 		<main>
-			<Header />
+			<Header user={user} setUser={setUser} />
 			<Routes>
 				<Route path="/" element={<Content />} />
 				<Route path="/reviews" element={<Reviews />} />

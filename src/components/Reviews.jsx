@@ -18,7 +18,7 @@ const Reviews = () => {
 					setReviewTemplate(data.reviews);
 				}
 			})
-			.catch((err) => setFatalErr(true))
+			.catch((err) => setFatalErr(err))
 			.finally(() => setLoading(false));
 	}, [reviewTemplate]);
 
@@ -48,7 +48,10 @@ const Reviews = () => {
 	if (fatalErr)
 		return (
 			<div className="notification">
-				Ran into an error while processing your request. Refresh or try again.
+				<h4>Ran into an error while processing your request:</h4>
+				<h3>
+					{fatalErr.response.status}: {fatalErr.response.data.msg}
+				</h3>
 			</div>
 		);
 
