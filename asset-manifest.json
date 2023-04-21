@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.02472bcd.css",
-    "main.js": "/static/js/main.a658161c.js",
-    "index.html": "/index.html",
-    "main.02472bcd.css.map": "/static/css/main.02472bcd.css.map",
-    "main.a658161c.js.map": "/static/js/main.a658161c.js.map"
+    "main.css": "/nc-games/static/css/main.02472bcd.css",
+    "main.js": "/nc-games/static/js/main.a658161c.js",
+    "index.html": "/nc-games/index.html",
+    "main.02472bcd.css.map": "/nc-games/static/css/main.02472bcd.css.map",
+    "main.a658161c.js.map": "/nc-games/static/js/main.a658161c.js.map"
   },
   "entrypoints": [
     "static/css/main.02472bcd.css",
